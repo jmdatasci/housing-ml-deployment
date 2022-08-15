@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = ""
+authors = ["Jordan  <16210031+jmdatasci@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.11"
+fastapi = "0.75.2"
+uvicorn = "^0.17.6"
+requests = "^2.27.1"
+joblib = "^1.1.0"
+scipy = "^1.8"
+scikit-learn = "^1.1.1"
+pandas = "^1.4.2"
+fastapi-redis-cache = "^0.2.5"
+sqlalchemy-orm = "^1.2.2"
+redis = "^4.3.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7"
+requests = "^2.27.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

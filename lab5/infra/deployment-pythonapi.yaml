@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab5
+  namespace: jordanmeyer
+  labels:
+    app: lab5
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lab5
+  template:
+    metadata:
+      labels:
+        app: lab5
+    spec:
+      containers:
+      - name: lab5
+        image: lab5:latest
+        resources:
+          requests:
+            cpu: 200m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: my-port
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: my-port
+          initialDelaySeconds: 15
+          periodSeconds: 20
+
+        startupProbe:
+          httpGet:
+            path: /health
+            port: my-port
+          failureThreshold: 30
+          periodSeconds: 10
+
+      initContainers:
+        - name: init-redis
+          image: busybox:1.28
+          command:
+            - /bin/sh
+            - -c
+            - >
+              set -x;
+              echo -e "Checking for availability of Redis Cache Deployment";
+              until ( nc -v redis-service 6379);
+              do echo "waiting for redis";
+              sleep 1; done;
+              echo -e "Redis Cache Deployment Online";
+
+      dnsPolicy: ClusterFirst
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lab4
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lab4
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
