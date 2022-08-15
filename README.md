@@ -246,9 +246,11 @@ I am also running a bonus load test with a cache rate of 10. This should perform
 With cache rate = 10:
 ![img_12.png](img_12.png)
 ![img_11.png](img_11.png)
-I can see a high peak, higher than expected, 266,483, 632 and 926 for P50, 90, 95 and 99 respectively. However as we see the step changes in pods come online to handle more operations the latency drops to a reasonable 
+I can see a high peak. higher than expected: 266, 483, 632 and 926 for P50, 90, 95 and 99 respectively. However as we see the step changes in pods come online to handle more operations the latency drops to a reasonable 
 
-2.96, 4.73, 4.96, 9.95 
+| Cache Rate  | P50 Latency | P90 Latency | P95 Latency | P99 Latency |
+|-------------|-------------|-------------|-------------|-------------|
+| 10 | 2.96 |  4.73 |  4.96| 9.95 |
 
 Overall we are seeing what we expect, a decreased sustained latency under load based on an increased cache rate.  I would disqualify 0.75 cache P99 results as they are significantly beyond expected values and likely due to increased simultaneous usage with other students.
 
